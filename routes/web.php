@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    redirect('/mc');
+    return redirect('/mc');
 });
 
 Route::middleware([
