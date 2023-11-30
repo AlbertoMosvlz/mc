@@ -24,8 +24,8 @@ class MoldeoCientifico extends Component
             $this->calculate_vd();
             $this->calculate_td();
             $this->vmc = number_format($this->vmc,2);
-            $this->vmc = number_format($this->vd,2);
-            $this->vmc = number_format($this->td,2);
+            $this->vd = number_format($this->vd,2);
+            $this->td = number_format($this->td,2);
         } catch (\Throwable $th) {
             $this->err = $th->getMessage();
             $this->msg = "Ha ocurrido un error al calcular";
