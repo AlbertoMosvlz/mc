@@ -10,7 +10,7 @@ class MoldeoCientifico extends Component
     public $td, $vd, $vmc;
     public $diametroTornillo, $posicionMaximaRecarga, $densidadMaterial, $resultado;
     public $pgr, $vt, $dm, $pgp, $vmm, $resv3_1, $resv3_2, $resv3;
-    public $err;
+    public $err, $msg, $err_bool = false;
 
     public function render()
     {
@@ -24,7 +24,9 @@ class MoldeoCientifico extends Component
             $this->calculate_vd();
             $this->calculate_td();
         } catch (\Throwable $th) {
-            $this->err = $th;
+            $this->err = $th->getMessage();
+            $this->msg = "Ha ocurrido un error al calcular";
+            $this->err_bool = true;
         }
     }
 
@@ -58,7 +60,9 @@ class MoldeoCientifico extends Component
         try {
             $this->resultado = $this->calcularTamanoDisparo();
         } catch (\Throwable $th) {
-            $this->err = $th;
+            $this->err = $th->getMessage();
+            $this->msg = "Ha ocurrido un error al calcular";
+            $this->err_bool = true;
         }
     }
 
@@ -83,7 +87,15 @@ class MoldeoCientifico extends Component
             $this->resv3_2  =   ($this->vmm * $this->pgp) / ($this->pgr + 100);
             $this->resv3    =   ($this->vmm * $this->pgp) / $this->pgr;
         } catch (\Throwable $th) {
-            $this->err = $th;
+            $this->err = $th->getMessage();
+            $this->msg = "Ha ocurrido un error al calcular";
+            $this->err_bool = true;
         }
+    }
+
+    public function closeError(){
+        $this->err_bool = false;
+        $this->msg = null;
+        $this->err = null;
     }
 }
