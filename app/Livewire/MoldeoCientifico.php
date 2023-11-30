@@ -23,6 +23,9 @@ class MoldeoCientifico extends Component
             $this->calculate_vcm();
             $this->calculate_vd();
             $this->calculate_td();
+            $this->vmc = number_format($this->vmc,2);
+            $this->vmc = number_format($this->vd,2);
+            $this->vmc = number_format($this->td,2);
         } catch (\Throwable $th) {
             $this->err = $th->getMessage();
             $this->msg = "Ha ocurrido un error al calcular";
@@ -33,13 +36,13 @@ class MoldeoCientifico extends Component
     public function calculate_vcm()
     {
         $temp = M_PI * pow($this->convertToCm($this->oh) / 2, 2) * $this->convertToCm($this->cmc);
-        $this->vmc = number_format($temp,4);
+        $this->vmc = $temp;
     }
 
     public function calculate_vd()
     {
         $temp = $this->m / $this->pm;
-        $this->vd = number_format($temp, 4);
+        $this->vd = $temp;
     }
 
     public function calculate_td()
@@ -49,11 +52,11 @@ class MoldeoCientifico extends Component
     }
     public function convertToCm($mm)
     {
-        return $mm * 0.1;
+        return (float)$mm * 0.1;
     }
     public function convertToMm($cm)
     {
-        return $cm * 10;
+        return (float)$cm * 10;
     }
 
     public function calculate_v2(){
