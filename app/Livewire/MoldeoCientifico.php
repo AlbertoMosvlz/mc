@@ -10,6 +10,7 @@ class MoldeoCientifico extends Component
     public $td, $vd, $vmc;
     public $diametroTornillo, $posicionMaximaRecarga, $densidadMaterial, $resultado;
     public $pgr, $vt, $dm, $pgp, $vmm, $resv3_1, $resv3_2, $resv3;
+    public $err;
 
     public function render()
     {
@@ -18,9 +19,13 @@ class MoldeoCientifico extends Component
 
     public function calculate()
     {
-        $this->calculate_vcm();
-        $this->calculate_vd();
-        $this->calculate_td();
+        try {
+            $this->calculate_vcm();
+            $this->calculate_vd();
+            $this->calculate_td();
+        } catch (\Throwable $th) {
+            $this->err = $th;
+        }
     }
 
     public function calculate_vcm()
@@ -50,7 +55,11 @@ class MoldeoCientifico extends Component
     }
 
     public function calculate_v2(){
-        $this->resultado = $this->calcularTamanoDisparo();
+        try {
+            $this->resultado = $this->calcularTamanoDisparo();
+        } catch (\Throwable $th) {
+            $this->err = $th;
+        }
     }
 
     public function calcularTamanoDisparo() {
@@ -68,9 +77,13 @@ class MoldeoCientifico extends Component
     }
 
     public function CalculateV3(){
-        $this->pgr = $this->vt * $this->dm;
-        $this->resv3_1  =   ($this->vmm * $this->pgp) / ($this->pgr - 100);
-        $this->resv3_2  =   ($this->vmm * $this->pgp) / ($this->pgr + 100);
-        $this->resv3    =   ($this->vmm * $this->pgp) / $this->pgr;
+        try {
+            $this->pgr = $this->vt * $this->dm;
+            $this->resv3_1  =   ($this->vmm * $this->pgp) / ($this->pgr - 100);
+            $this->resv3_2  =   ($this->vmm * $this->pgp) / ($this->pgr + 100);
+            $this->resv3    =   ($this->vmm * $this->pgp) / $this->pgr;
+        } catch (\Throwable $th) {
+            $this->err = $th;
+        }
     }
 }
